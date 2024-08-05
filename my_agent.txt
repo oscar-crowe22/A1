@@ -1,0 +1,21 @@
+      """Returns the bid value of the next bid
+
+            :param percepts: a tuple of four items: bidding_on, items_left, my_cards, opponents_cards
+
+                     , where
+
+                     bidding_on - is an integer value of the item to bid on;
+
+                     items_left - the items still to bid on after this bid (the length of the list is the number of
+                                  bids left in the game)
+
+                     my_cards - the list of cards in the agent's hand
+
+                     bank - total value of items in this game
+                     
+                     opponents_cards - a list of lists of cards in the opponents' hands, so in two player game, this is
+                                      a list of one list of cards, in three player game, this is a list of two lists, etc.
+
+
+            :return: value - card value to bid with, must be a number from my_cards
+      """
