@@ -36,25 +36,55 @@ class RajAgent():
       self.item_values = item_values
 
    
-   def MiniMax(self, percepts, depth):
-      # base case
-      if(depth == 5):
-        print(percepts[2])
-        return percepts[2][0]
-      else:
-        self.MiniMax(percepts, depth + 1)
-         
-      
+   """
+      Where we are at the moment:
+      - the minimax goes to the bottom and simply returns the bank value
+      - now we need a way to remove cards from the lists to proerly simulate the game being played
+      - each time min places a card we need to update the bank value so that we can rank the game
+      - also need to handle negative inputs
+      - i reckon i convert the lists of turns into mutable lists i can remove items from then the game can be properly simulated
+      """
+   def MiniMax(self, percepts, bidding_on, items_left, my_cards, opponents_cards, bank, state, depth, Maxturn):
+        if(depth == 0):
+            # bank is how you evaluate the state of the game
+            print(bank)
+            return bank
+        if(Maxturn):
+           maxEval = float('-inf')
+           for card in my_cards:
+              if(card == state): continue
+              state = card
+              tempVal = self.MiniMax(percepts, bidding_on, items_left, my_cards, opponents_cards, bank, state, depth - 1, False)
+              maxEval = max(maxEval, tempVal)
+           return maxEval
+        else:
+           minEval = float('inf')
+           for card in opponents_cards:
+              tempVal = self.MiniMax(percepts, bidding_on, items_left, my_cards, opponents_cards, bank, state, depth - 1, True)
+              minEval = min(minEval, tempVal)
+           return minEval
 
    def AgentFunction(self, percepts):
-
       # Extract different parts of percepts.
       bidding_on = percepts[0]
       items_left = percepts[1]
       my_cards = percepts[2]
       bank = percepts[3]
       opponents_cards = percepts[4:]
-      # Currently this agent just bids the first card in its hand - you need to make it smarter!
-      action = self.MiniMax(percepts, 5)
-      # Return the bid
+    #   print(percepts)
+    #   print("BANK")
+    #   print(bank)
+    #   print(bidding_on)
+    #   print(items_left)
+    #   print(my_cards)
+    #   print(opponents_cards)
+      action = my_cards[0]
+      bestMove = float('-inf')
+      for card in my_cards:
+         newBank = self.MiniMax(percepts, bidding_on, items_left, my_cards, opponents_cards, bank, card, len(opponents_cards), False)
+         if(newBank > bestMove):
+            print(card)
+            print(newBank)
+            action = card
+            bestMove = newBank
       return action

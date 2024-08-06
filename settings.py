@@ -14,7 +14,7 @@ game_settings = {
 
    "itemValues": (-2,-1,1,2,3,4), # values of the items to bid on (must be same length as cardValues)
 
-   "totalNumberOfGames": 1,    # total number of games played
+   "totalNumberOfGames": 100,    # total number of games played
 
    "verbose": False,
 
