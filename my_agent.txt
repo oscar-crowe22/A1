@@ -18,4 +18,49 @@
 
 
             :return: value - card value to bid with, must be a number from my_cards
- 
+      """
+
+
+      if(maxPlayer):
+         maxEvaluation = -100
+         for card in percepts[2]:
+            tempEval = self.MiniMax(card, depth -1, False)
+            maxEvaluation = max(maxEvaluation, tempEval)
+         return maxEvaluation
+      else:
+         minEvaluation = -100
+         for card in percepts[4:]:
+            tempEval = self.MiniMax(card, depth -1, True)
+            minEvaluation = max(minEvaluation, tempEval)
+         return minEvaluation
+
+
+         if(len(percepts[2]) == 0):
+         # return the difference in bank max - bank min
+         # if possitive it is a win for max, negative is a win for min
+         return bank
+      if(maxPlayer):
+         for card in percepts[2]:
+            self.MiniMax(percepts, bank, card, False, biddingOn)
+         return bank
+      else:
+         reward = biddingOn[0]
+         for card in percepts[4:]:
+            if(maxCard > card):
+               bank = bank + reward
+            elif(maxPlayer < card):
+               bank = bank - reward
+            self.MiniMax(percepts, bank, card, True, biddingOn)
+         return bank
+
+
+               action = my_cards[0]
+      for card in my_cards:
+         bestMove = bank
+         newMove = self.MiniMax(percepts, bidding_on, items_left, my_cards, bank, card)
+         print(card)
+         print(newMove)
+         if(newMove > bestMove):
+            action = card
+            bestMove = newMove
+      # Return the bid
